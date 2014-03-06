@@ -1,7 +1,3 @@
-// Hlutir af tagi AVLIntervalTree eru hnútar í AVL tré af strengjum.
-// Tilvísun í hlut af tagi AVLIntervalTree getur því staðið fyrir 
-// heilt AVL tré.
-
 class AVLIntervalTree
 {
 	private Interval Value;
