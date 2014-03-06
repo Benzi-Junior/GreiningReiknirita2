@@ -49,8 +49,8 @@ class AVLIntervalTree
 		
 	private static int minof3( int a, int b, int c ){
 		int min = a;
-		if( min < b ) min = b;
-		if( min < c ) min = c;
+		if( min > b ) min = b;
+		if( min > c ) min = c;
 		return min;
 		}
 	
@@ -69,8 +69,27 @@ class AVLIntervalTree
 		b = a;
 		if( org.left != null ) a = org.left.Min;
 		if( org.right != null ) b = org.right.Min;
-		org.Max = minof3( a, b, org.Value.min() );
+		org.Min = minof3( a, b, org.Value.min() );
 		}
+
+
+		
+	public static  String SearchInterval( AVLIntervalTree tre,Interval bil)
+	{
+		BST<Interval> skil = new BST<Interval>();
+		findIntersecting(tre, bil, skil);
+		return skil.toString();	
+	}
+
+	private static void findIntersecting( AVLIntervalTree tre, Interval bil, BST skil)
+	{
+		if(tre.Value.intersects(bil))
+			skil.insert(tre.Value);
+		if(tre.left!= null && tre.left.Max>= bil.min()&& tre.left.Min <= bil.max())
+			tre.left.findIntersecting(tre.left, bil ,skil);
+		if(tre.left!= null && tre.right.Max>= bil.min()&& tre.right.Min <= bil.max())
+			tre.right.findIntersecting(tre.right, bil ,skil);
+	}
 	
 	// Notkun: tree = rotateLL( tree );
 	// Fyrir: tree hefur rót og vinstra barn.
@@ -208,7 +227,7 @@ class AVLIntervalTree
 			{
 				public void handle( AVLIntervalTree tree )
 				{
-					System.out.println(""+tree.height+": "+tree.Value);
+					System.out.println(""+tree.height+": "+tree.Value+ " max: "+tree.Max+ " min:"+tree.Min );
 				}
 			};
 		handleNodesInOrder(handler,tree);
@@ -448,7 +467,9 @@ class AVLIntervalTree
 	System.out.println("BST: " + checkBST(Tree));
 	printTreeInOrder(Tree);
 	
-	
+	System.out.println(SearchInterval(Tree, new Interval(5,6)));	
+	System.out.println(SearchInterval(Tree, new Interval(1,3)));	
+	System.out.println(SearchInterval(Tree, new Interval(10,10)));	
 	/*
 		AVLIntervalTree tree = null;
 		java.util.Scanner s = new java.util.Scanner(System.in);
