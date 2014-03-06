@@ -1,13 +1,13 @@
 public class Interval implements Comparable<Interval>{
 
 // Engin skilyrði
-private final double left;
-private final double right;
+private final int left;
+private final int right;
 
 // Notkun: I = new Interval(a,b)
 // Fyrir: Ekkert
 // Eftir: I = [a, b]
-public Interval(double a, double b){
+public Interval(int a, int b){
 	left = a;
 	right = b;
 }
@@ -22,21 +22,21 @@ public boolean isEmpty(){
 // Notkun: max = I.max();
 // Fyrir: Ekkert
 // Eftir: max eru efri mörk I
-public double max(){
+public int max(){
 	return right;
 }
 
 // Notkun: min = I.min();
 // Fyrir: Ekkert
 // Eftir: min eru neðri mörk I
-public double min(){
+public int min(){
 	return left;
 }
 
 // Notkun: inni = I.contains(x)
 // Fyrir: Ekkert
 // Eftir: inni = true ef x er stak í I, inni = false annars
-public boolean contains(double x){
+public boolean contains(int x){
 	return (left <= x) && (x <= right);
 }
 
@@ -109,13 +109,15 @@ public static void ollbil(double x){
 
 
 public static void main(String[] args){
-	Interval I = new Interval(Double.parseDouble(args[0]),Double.parseDouble(args[1]));
-	Interval M = new Interval(0.0, 1.0);
-	double inn = Double.parseDouble(args[2]);
+/*
+	Interval I = new Interval(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
+	Interval M = new Interval(0, 1);
+	int inn = Integer.parseInt(args[2]);
 	System.out.println("I er tomt: " + I.isEmpty());
 	System.out.println("Nedri mork: " + I.min() + " , efri mork: " + I.max());
 	System.out.println("I inniheldur " + inn + ": " + I.contains(inn));
 	System.out.println("I sker M: " + I.intersects(M));
 	System.out.println("I = " + I);
 	System.out.println("I.compareTo(M): " + I.compareTo(M));
+*/
 }}

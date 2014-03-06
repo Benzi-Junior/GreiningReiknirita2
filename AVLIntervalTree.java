@@ -7,6 +7,7 @@ class AVLIntervalTree
 	private Interval Value;
 	private int height;
 	private int Max;
+	private int Min;
 	private AVLIntervalTree left;
 	private AVLIntervalTree right;
 	private AVLIntervalTree parent;
@@ -39,6 +40,38 @@ class AVLIntervalTree
 		public void handle( AVLIntervalTree node );
 	}
 	
+	private static int maxof3( int a, int b, int c ){
+		int max = a;
+		if( max < b ) max = b;
+		if( max < c ) max = c;
+		return max;		
+		}
+		
+	private static int minof3( int a, int b, int c ){
+		int min = a;
+		if( min < b ) min = b;
+		if( min < c ) min = c;
+		return min;
+		}
+	
+	private static void updateMax( AVLIntervalTree org ){
+		int a, b;
+		a = Integer.MIN_VALUE;
+		b = a;
+		if( org.left != null ) a = org.left.Max;
+		if( org.right != null ) b = org.right.Max;
+		org.Max = maxof3( a, b, org.Value.max() );
+		}
+		
+	private static void updateMin( AVLIntervalTree org ){
+		int a, b;
+		a = Integer.MAX_VALUE;
+		b = a;
+		if( org.left != null ) a = org.left.Min;
+		if( org.right != null ) b = org.right.Min;
+		org.Max = minof3( a, b, org.Value.min() );
+		}
+	
 	// Notkun: tree = rotateLL( tree );
 	// Fyrir: tree hefur rót og vinstra barn.
 	// Eftir: Búið er að snúa tree og uppfæra hæðir miðað við eftirfarandi mynd
@@ -52,14 +85,15 @@ class AVLIntervalTree
 		AVLIntervalTree x = tree, y = x.left;
 		x.left = y.right;
 		x.height = height(x.left,x.right);
+		updateMax(x);
+		updateMin(x);
 		y.right = x;
 		y.height = height(y.left,x);
+		updateMax(y);
+		updateMin(y);
 		return y;
 	}
-	
-	
-	
-	
+		
 	
 	// Notkun: tree = rotateLR( tree );
 	// Fyrir: tree hefur rót og vinstra barn sem hefur hægra barn.
@@ -76,11 +110,17 @@ class AVLIntervalTree
 		AVLIntervalTree x = tree, y = x.left, z = y.right;
 		x.left = z.right;
 		x.height = height(x.left,x.right);
+		updateMax(x);
+		updateMin(x);
 		y.right = z.left;
 		y.height = height(y.left,y.right);
+		updateMax(y);
+		updateMin(y);
 		z.right = x;
 		z.left = y;
 		z.height = height(y,x);
+		updateMax(z);
+		updateMin(z);
 		return z;
 	}
 	
@@ -97,8 +137,12 @@ class AVLIntervalTree
 		AVLIntervalTree x = tree, y = x.right;
 		x.right = y.left;
 		x.height = height(x.left,x.right);
+		updateMax(x);
+		updateMin(x);
 		y.left = x;
 		y.height = height(x,y.right);
+		updateMax(y);
+		updateMin(y);
 		return y;
 	}
 	
@@ -117,11 +161,17 @@ class AVLIntervalTree
 		AVLIntervalTree x = tree, y = x.right, z = y.left;
 		x.right = z.left;
 		x.height = height(x.left,x.right);
+		updateMax(x);
+		updateMin(x);
 		y.left = z.right;
 		y.height = height(y.left,y.right);
+		updateMax(y);
+		updateMin(y);
 		z.left = x;
 		z.right = y;
 		z.height = height(x,y);
+		updateMax(z);
+		updateMin(z);
 		return z;
 	}
 	
@@ -133,6 +183,7 @@ class AVLIntervalTree
 		Value = I;
 		height = 1;
 		Max = I.max();
+		Min = I.min();
 	}
 	
 	// Notkun: handleNodesInOrder(handler,tree);
@@ -223,11 +274,14 @@ class AVLIntervalTree
 	//         I er bætt í org tréð
 	public static AVLIntervalTree insert( AVLIntervalTree org, Interval I )
 	{
-		// Uppfæri org.Max
-		if( I.max() > org.Max ) org.Max = I.max();
 		
 		if( org==null )
 			return new AVLIntervalTree(I);
+		
+		// Uppfæri org.Max og org.Min
+		if( I.max() > org.Max ) org.Max = I.max();
+		if( I.min() < org.Min ) org.Min = I.min();
+		
 		if( I.compareTo(org.Value) < 0 )
 		{
 			org.left = insert(org.left,I);
@@ -258,19 +312,13 @@ class AVLIntervalTree
 	}
 	
 	
-	
-	
 	// Notkun: tree = delete(org,I);
 	// Fyrir:  
 	// Eftir:  tree er nýja AVL tréð sem út kemur þegar hnúti með gildinu
 	//         I er eytt í org trénu (ef einhver slíkur hnútur er til,
 	//         annars er tree sama tré og org).
-	static AVLIntervalTree delete( AVLIntervalTree org, Interval I )
+	public static AVLIntervalTree delete( AVLIntervalTree org, Interval I )
 	{
-		// Uppfæri org.Max
-		if( I.max() == org.Max ){
-			
-			}
 		
 		if( org==null ) return null;
 		if( I.equals(org.Value) )
@@ -279,6 +327,10 @@ class AVLIntervalTree
 			{
 				org.Value = max(org.left);
 				org.left = delete(org.left,org.Value);
+				
+				// Uppfæri org.Max
+				updateMax(org);
+				updateMin(org);
 				
 				if( height(org.left) + 1 < height(org.right) ){
 					if( height(org.right.right) < height(org.right.left) ) org = rotateRL(org);
@@ -293,6 +345,10 @@ class AVLIntervalTree
 				org.Value = min(org.right);
 				org.right = delete(org.right,org.Value);
 				
+				// Uppfæri org.Max
+				updateMax(org);
+				updateMin(org);
+								
 				if( height(org.right) + 1 < height(org.left) ){
 					if( height(org.left.left) < height(org.left.right) ) org = rotateLR(org);
 					else org = rotateLL(org);
@@ -308,6 +364,9 @@ class AVLIntervalTree
 		if( I.compareTo(org.Value) < 0 )
 		{
 			org.left = delete(org.left,I);
+			// Uppfæri org.Max
+			updateMax(org);
+			updateMin(org);
 			
 			if( height(org.left) + 1 < height(org.right) ){
 				if( height(org.right.right) < height(org.right.left) ) org = rotateRL(org);
@@ -319,6 +378,9 @@ class AVLIntervalTree
 		else
 		{
 			org.right = delete(org.right,I);
+			// Uppfæri org.Max
+			updateMax(org);
+			updateMin(org);
 			
 			if( height(org.right) + 1 < height(org.left) ){
 				if( height(org.left.left) < height(org.left.right) ) org = rotateLR(org);
@@ -354,13 +416,40 @@ class AVLIntervalTree
 	}
 	
 	
-	
-	
-	
-	
-	
 	public static void main( String[] args ) throws Exception
-	{/*
+	{
+	
+	Interval I1 = new Interval(3,7);
+	Interval I2 = new Interval(3,5);
+	Interval I3 = new Interval(3,6);
+	Interval I4 = new Interval(2,7);
+	Interval I5 = new Interval(4,5);
+	Interval I6 = new Interval(3,9);
+	Interval I7 = new Interval(6,10);
+	
+	AVLIntervalTree Tree = null;
+	Tree = insert(Tree, I1);
+	Tree = insert(Tree, I2);
+	Tree = insert(Tree, I3);
+	Tree = insert(Tree, I4);
+	Tree = insert(Tree, I5);
+	Tree = insert(Tree, I6);
+	Tree = insert(Tree, I7);
+	
+	System.out.println("AVL: " + checkAVL(Tree));
+	System.out.println("BST: " + checkBST(Tree));
+	printTreeInOrder(Tree);
+	
+	Tree = delete(Tree, I1);
+	Tree = delete(Tree, I2);
+	
+	
+	System.out.println("AVL: " + checkAVL(Tree));
+	System.out.println("BST: " + checkBST(Tree));
+	printTreeInOrder(Tree);
+	
+	
+	/*
 		AVLIntervalTree tree = null;
 		java.util.Scanner s = new java.util.Scanner(System.in);
 		while( s.hasNextLine() )
