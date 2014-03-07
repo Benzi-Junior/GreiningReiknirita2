@@ -8,8 +8,14 @@ private final int right;
 // Fyrir: Ekkert
 // Eftir: I = [a, b]
 public Interval(int a, int b){
-	left = a;
-	right = b;
+	if( a <= b ){
+		left = a;
+		right = b;
+	}
+	else{
+		left = 0;
+		right = 0;
+	}
 }
 
 // Notkun: tomt = I.isEmpty()
@@ -86,38 +92,6 @@ public boolean equals(Interval J){
 	return left == J.min() && right == J.max();
 }
 
+public static void main(String[] args){}
 
-
-
-
-/*
-
-// Notkun: ollbil(x)
-// Fyrir: Á staðalinntaki er sléttur fjöldi double talna
-// Eftir: Fallið prentar út öll bilin á staðalinntaki sem innihalda x
-public static void ollbil(double x){
-	while(!StdIn.isEmpty()){
-		double a = StdIn.readDouble();
-		double b = StdIn.readDouble();
-		Interval I = new Interval(a,b);
-		if(I.contains(x)){
-			System.out.println(I);
-		}
-	}
 }
-*/
-
-
-public static void main(String[] args){
-/*
-	Interval I = new Interval(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
-	Interval M = new Interval(0, 1);
-	int inn = Integer.parseInt(args[2]);
-	System.out.println("I er tomt: " + I.isEmpty());
-	System.out.println("Nedri mork: " + I.min() + " , efri mork: " + I.max());
-	System.out.println("I inniheldur " + inn + ": " + I.contains(inn));
-	System.out.println("I sker M: " + I.intersects(M));
-	System.out.println("I = " + I);
-	System.out.println("I.compareTo(M): " + I.compareTo(M));
-*/
-}}
