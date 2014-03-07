@@ -25,7 +25,7 @@ public class PrufuForritBjarni {
                             break;
                 case "?o": assert(S.length==3); // "?o a b"
                             //~ System.out.println("?o");
-                            System.out.println( AVLIntervalTree.containIntegererval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) );
+                            System.out.println( AVLIntervalTree.containInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) );
                             break;
                 case "?i": assert(S.length==3); // "?i a b"
                             //~ System.out.println("?i");
