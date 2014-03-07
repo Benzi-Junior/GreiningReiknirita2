@@ -1,4 +1,13 @@
 public class PrufuForritBjarni {
+    
+    // Notkun: s = treeToString(T);
+    // Fyrir: (ekkert)
+    // Eftir: s er strengurinn "[]" ef T er null, annars er s strengurinn T.toString().
+    private static String treeToString( AVLIntervalTree T ) {
+        if (T==null) return "[]";
+        else return T.toString();
+    }
+    
     public static void main(String[] args) {
         //~ private static Scanner scanner = new Scanner(new BufferedInputStream(System.in), charsetName);
         java.util.Scanner scanner = new java.util.Scanner(System.in);
@@ -25,15 +34,15 @@ public class PrufuForritBjarni {
                             break;
                 case "?o": assert(S.length==3); // "?o a b"
                             //~ System.out.println("?o");
-                            System.out.println( AVLIntervalTree.containInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) );
+                            System.out.println( treeToString( AVLIntervalTree.containInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) ) );
                             break;
                 case "?i": assert(S.length==3); // "?i a b"
                             //~ System.out.println("?i");
-                            System.out.println( AVLIntervalTree.intersectInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) );
+                            System.out.println( treeToString( AVLIntervalTree.intersectInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) ) );
                             break;
                 case "?p": assert(S.length==2); // "?p a"
                             //~ System.out.println("?p");
-                            System.out.println( AVLIntervalTree.containInteger( tree , Integer.parseInt(S[1]) ) );
+                            System.out.println( treeToString( AVLIntervalTree.containInteger( tree , Integer.parseInt(S[1]) ) ) );
                             break;
                 default: countFailures++; break;
             }
