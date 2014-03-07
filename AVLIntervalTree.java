@@ -116,7 +116,7 @@ class AVLIntervalTree
             S = insert(S, T.Value);
         if( T.left != null && T.left.Max >= I.min() && T.left.Min <= I.max() )
             S = findIntersecting(S, T.left, I);
-        if( T.left != null && T.right.Max >= I.min() && T.right.Min <= I.max() )
+        if( T.right != null && T.right.Max >= I.min() && T.right.Min <= I.max() )
             S = findIntersecting(S, T.right, I);
         return S;
     }
@@ -504,8 +504,8 @@ class AVLIntervalTree
     
     
     System.out.println(intersectInterval(Tree, new Interval(5,6)) + "\n");
-    System.out.println(intersectInterval(Tree, new Interval(1,3)) + "\n");
-    System.out.println(intersectInterval(Tree, new Interval(10,10)) + "\n");
+    System.out.println(containInteger(Tree, 3) + "\n");
+    System.out.println(containInterval(Tree, new Interval(7,8)) + "\n");
     System.out.println(Tree);
     }
 }
