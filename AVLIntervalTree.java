@@ -39,14 +39,13 @@ class AVLIntervalTree
         return max;     
     }
     
-    // Notkun: m = minof3( a, b, c )
+    // Notkun: m = minof3( a, b )
     // Fyrir:
-    // Eftir: m = min{ a, b, c }
-    private static int minof3( int a, int b, int c )
+    // Eftir: m = min{ a, b }
+    private static int minof2( int a, int b )
     {
         int min = a;
         if( min > b ) min = b;
-        if( min > c ) min = c;
         return min;
     }
     
@@ -71,7 +70,7 @@ class AVLIntervalTree
         int a, b;
         a = Integer.MAX_VALUE;
         if( T.left != null ) a = T.left.Min;
-        T.Min = minof3( a, a, T.Value.min() );
+        T.Min = minof2( a, T.Value.min() );
     }
     
     // Notkun: S = containInterval( T, I )
@@ -119,7 +118,7 @@ class AVLIntervalTree
         if( T.right != null && T.right.Max >= I.min() && T.right.Min <= I.max() )
             S = findIntersecting(S, T.right, I);
         return S;
-    }
+    }    
     
     // Notkun: tree2 = rotateLL( tree );
     // Fyrir: tree != null og tree.left != null
