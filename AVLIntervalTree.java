@@ -1,8 +1,8 @@
 class AVLIntervalTree
 {
-    public Interval Value;        //Bjarni breytti í public út af nodeValueToString()
-    public AVLIntervalTree left;  // (sama og ofan)
-    public AVLIntervalTree right; // (sama og ofan)
+    public Interval Value;        //Bjarni gerði public
+    public AVLIntervalTree left;  //
+    public AVLIntervalTree right; //
     private int height;
     private int Max;
     private int Min;
@@ -456,6 +456,9 @@ class AVLIntervalTree
         return nodeValueToString(this);
     }
     
+    // Notkun: 
+    // Fyrir: 
+    // Eftir: 
     private static String nodeValueToString(AVLIntervalTree T) {
         String s1,s2,s3;
         
@@ -468,8 +471,7 @@ class AVLIntervalTree
         else                s3 = "";
         
         return s1+s2+s3;
-    }
-    
+    }   
     public static void main( String[] args ) throws Exception
     {
     
