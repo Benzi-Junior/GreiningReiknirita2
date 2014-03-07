@@ -33,15 +33,12 @@ public class PrufuForritBjarni {
                             tree = AVLIntervalTree.delete( tree, new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) );
                             break;
                 case "?o": assert(S.length==3); // "?o a b"
-                            //~ System.out.println("?o");
-                            System.out.println( treeToString( AVLIntervalTree.containInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) ) );
-                            break;
-                case "?i": assert(S.length==3); // "?i a b"
-                            //~ System.out.println("?i");
                             System.out.println( treeToString( AVLIntervalTree.intersectInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) ) );
                             break;
+                case "?i": assert(S.length==3); // "?i a b"
+                            System.out.println( treeToString( AVLIntervalTree.containInterval( tree , new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) ) ) );
+                            break;
                 case "?p": assert(S.length==2); // "?p a"
-                            //~ System.out.println("?p");
                             System.out.println( treeToString( AVLIntervalTree.containInteger( tree , Integer.parseInt(S[1]) ) ) );
                             break;
                 default: countFailures++; break;
