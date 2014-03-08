@@ -46,6 +46,6 @@ public class PrufuForritBjarni {
         }
         //~ E: Búið er að lesa inn allar línur af staðalinntaki og gera viðeigandi aðgerðir með þær.
         
-        System.out.println("Fjöldi lína sem ekki gekk að lesa rétt inn: "+countFailures);
+//        System.out.println("Fjöldi lína sem ekki gekk að lesa rétt inn: "+countFailures);
     }
 }
