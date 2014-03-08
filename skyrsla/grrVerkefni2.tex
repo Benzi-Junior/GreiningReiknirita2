@@ -38,8 +38,20 @@
 
 \section{Verklýsingin}
 Verkefnið var að hanna gagnagrind sem notaðist við einhverskonar tré til að geyma lokuð bil  á rauntalnalínunni þar sem báðir endanpunktarnir eru heiltölur.
-Við notuðum AVL tré til að geyma bilin sérhver hnútur inniheldur bil ásamt hæsta og lægsta endapunkt sem fyrirfynnst í undirtrénu með þann hnút sem rót.
- 
+Við notuðum AVL tré til að geyma bilin sérhver hnútur inniheldur bil ásamt hæsta og lægsta endapunkt sem fyrirfynnst í undirtrénu með þann hnút sem rót. 
+Ef bil I  sker bilið frá lægsta til hæsta endapunktar undirtrés segjum við að bilið skeri undirtréð.
 
+Innsetning, leit og eyðing eru framkvæmd eins og við er að búast af AVL tré.
+
+Þegar leitað er að þeim bilum í trénu sem skera eitthvað bil I þá er athugað hvort I skeri bilið í rótinni 
+svo er athugað hvort I skeri undirtrén og endurkvæmt leitað í þeim undirtrjám sem I sker.
+Þau bil sem skera I eru sett í nýtt tré af sömu tegund og því tré er svo skilað í lokin.
+
+
+Klasin sem við notuðum fyrir bil leifði úrkynjuð bil það er $[a,b]$ þar sem $b\leq a$.
+
+þegar leitað er að bilum í trénu sem innihalda ákveðin punkt p  þá er leitað að þeim bilum sem skera  $[p,p]$ 
+
+Þegar leitað er að þeim bilum í trénu sem innihalda bil $[a,b]$ þá er fyrst leitað að þeim bilum sem skera $[a,a]$ og svo er leitað að þeim bilum sem skera  $[b,b]$ í trénu sem skilað var úr fyrri leitinni.
 
 \end{document}
