@@ -1,8 +1,8 @@
 class AVLIntervalTree
 {
-    public Interval Value;        //Bjarni gerði public
-    public AVLIntervalTree left;  //
-    public AVLIntervalTree right; //
+    private Interval Value;        //Bjarni gerði public
+    private AVLIntervalTree left;  //
+    private AVLIntervalTree right; //
     private int height;
     private int Max;
     private int Min;
@@ -445,66 +445,54 @@ class AVLIntervalTree
     // Notkun: s = T.toString()
     // Fyrir: 
     // Eftir: s er strengur af bilum T í vaxandi röð.
-    public String toString()
-    {
-        //~ String s = Value.toString();
-        //~ if( left != null ) s = left.toString() + "\n" + s;
-        //~ if( right != null ) s = s + "\n" + right.toString();
-        //~ return s;
-        
-        return nodeValueToString(this);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        buildStringFromTree(this,sb);
+        return sb.toString();
     }
     
-    // Notkun: 
-    // Fyrir: 
-    // Eftir: 
-    private static String nodeValueToString(AVLIntervalTree T) {
-        String s1,s2,s3;
+    // Notkun: buildStringFromTree(T,sb);
+    // Fyrir: T != null
+    // Eftir: Búið er að bæta við öllum strengjum í trénu T inn í sb í stafrófsröð.
+    private static void buildStringFromTree(AVLIntervalTree T, StringBuilder sb) {
+        if (T.left != null) buildStringFromTree(T.left,sb);
+        sb.append(T.Value.toString()+" ");
+        //~ System.out.print(T.Value.toString()+" ");
+        if (T.right!= null) buildStringFromTree(T.right,sb);
+    }
+    
+    public static void main( String[] args ) throws Exception {    
+        Interval I1 = new Interval(3,7);
+        Interval I2 = new Interval(3,5);
+        Interval I3 = new Interval(3,6);
+        Interval I4 = new Interval(2,7);
+        Interval I5 = new Interval(4,5);
+        Interval I6 = new Interval(3,9);
+        Interval I7 = new Interval(6,10);
         
-        if (T.left != null) s1 = nodeValueToString(T.left);
-        else                s1 = "";
+        AVLIntervalTree Tree = null;
+        Tree = insert(Tree, I1);
+        Tree = insert(Tree, I2);
+        Tree = insert(Tree, I3);
+        Tree = insert(Tree, I4);
+        Tree = insert(Tree, I5);
+        Tree = insert(Tree, I6);
+        Tree = insert(Tree, I7);
         
-        s2 = T.Value.toString()+" ";
+        System.out.println("AVL: " + checkAVL(Tree));
+        System.out.println("BST: " + checkBST(Tree));
+            
+        Tree = delete(Tree, I1);
+        Tree = delete(Tree, I2);
         
-        if (T.right!= null) s3 = nodeValueToString(T.right);
-        else                s3 = "";
         
-        return s1+s2+s3;
-    }   
-    public static void main( String[] args ) throws Exception
-    {
-    
-    Interval I1 = new Interval(3,7);
-    Interval I2 = new Interval(3,5);
-    Interval I3 = new Interval(3,6);
-    Interval I4 = new Interval(2,7);
-    Interval I5 = new Interval(4,5);
-    Interval I6 = new Interval(3,9);
-    Interval I7 = new Interval(6,10);
-    
-    AVLIntervalTree Tree = null;
-    Tree = insert(Tree, I1);
-    Tree = insert(Tree, I2);
-    Tree = insert(Tree, I3);
-    Tree = insert(Tree, I4);
-    Tree = insert(Tree, I5);
-    Tree = insert(Tree, I6);
-    Tree = insert(Tree, I7);
-    
-    System.out.println("AVL: " + checkAVL(Tree));
-    System.out.println("BST: " + checkBST(Tree));
+        System.out.println("AVL: " + checkAVL(Tree));
+        System.out.println("BST: " + checkBST(Tree));
         
-    Tree = delete(Tree, I1);
-    Tree = delete(Tree, I2);
-    
-    
-    System.out.println("AVL: " + checkAVL(Tree));
-    System.out.println("BST: " + checkBST(Tree));
-    
-    
-    System.out.println(intersectInterval(Tree, new Interval(5,6)) + "\n");
-    System.out.println(containInteger(Tree, 3) + "\n");
-    System.out.println(containInterval(Tree, new Interval(7,8)) + "\n");
-    System.out.println(Tree);
+        
+        System.out.println(intersectInterval(Tree, new Interval(5,6)) + "\n");
+        System.out.println(containInteger(Tree, 3) + "\n");
+        System.out.println(containInterval(Tree, new Interval(7,8)) + "\n");
+        System.out.println(Tree);
     }
 }

@@ -1,3 +1,5 @@
+//~ java PrufuForritBjarni < io/s1.in | diff -w io/s1.out - | wc -l
+
 public class PrufuForritBjarni {
     
     // Notkun: s = treeToString(T);
@@ -6,6 +8,9 @@ public class PrufuForritBjarni {
     private static String treeToString( AVLIntervalTree T ) {
         if (T==null) return "[]";
         else return T.toString();
+        //~ if (T==null) System.out.print("[]");
+        //~ else System.out.print(T.toString());
+        //~ return "";
     }
     
     public static void main(String[] args) {
@@ -46,6 +51,5 @@ public class PrufuForritBjarni {
         }
         //~ E: Búið er að lesa inn allar línur af staðalinntaki og gera viðeigandi aðgerðir með þær.
         
-//        System.out.println("Fjöldi lína sem ekki gekk að lesa rétt inn: "+countFailures);
     }
 }
