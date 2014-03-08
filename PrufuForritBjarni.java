@@ -1,4 +1,5 @@
-//~ java PrufuForritBjarni < io/s1.in | diff -w io/s1.out - | wc -l
+//~ Við keyrum prufurorritið með skipuninni
+//~ time java PrufuForritBjarni < io/s1.in | diff -w io/s1.out - | wc -l
 
 public class PrufuForritBjarni {
     
@@ -8,17 +9,11 @@ public class PrufuForritBjarni {
     private static String treeToString( AVLIntervalTree T ) {
         if (T==null) return "[]";
         else return T.toString();
-        //~ if (T==null) System.out.print("[]");
-        //~ else System.out.print(T.toString());
-        //~ return "";
     }
     
     public static void main(String[] args) {
-        //~ private static Scanner scanner = new Scanner(new BufferedInputStream(System.in), charsetName);
+        //~ Skanni sem les inn tölurnar
         java.util.Scanner scanner = new java.util.Scanner(System.in);
-        
-        //~ Dev purposes only
-        int countFailures=0;
         
         //~ tree==null sem þýðir að tree vísar í tómt tré.
         AVLIntervalTree tree = null;
@@ -29,7 +24,7 @@ public class PrufuForritBjarni {
             String line = scanner.nextLine(); //tekur inntak fram að næsta enter
             String[] S = line.split(" "); //býr til fylki af orðunum í línunni (skipt eftir bilum)
             
-            //~ Skoðum núna hvert fyrsta orðið er í línunni.
+            //~ Skoðum núna hvert fyrsta orðið í línunni er.
             switch (S[0]) {
                 case  "+": assert(S.length==3); // "+ a b"
                             tree = AVLIntervalTree.insert( tree, new Interval( Integer.parseInt(S[1]) , Integer.parseInt(S[2]) ) );
@@ -46,10 +41,9 @@ public class PrufuForritBjarni {
                 case "?p": assert(S.length==2); // "?p a"
                             System.out.println( treeToString( AVLIntervalTree.containInteger( tree , Integer.parseInt(S[1]) ) ) );
                             break;
-                default: countFailures++; break;
+                default: System.out.println("Input line in wrong format. Exiting now."); System.exit(0); break;
             }
         }
         //~ E: Búið er að lesa inn allar línur af staðalinntaki og gera viðeigandi aðgerðir með þær.
-        
     }
 }

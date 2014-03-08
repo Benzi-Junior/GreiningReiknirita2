@@ -1,8 +1,7 @@
-class AVLIntervalTree
-{
-    private Interval Value;        //Bjarni gerði public
-    private AVLIntervalTree left;  //
-    private AVLIntervalTree right; //
+class AVLIntervalTree {
+    private Interval Value;
+    private AVLIntervalTree left;
+    private AVLIntervalTree right;
     private int height;
     private int Max;
     private int Min;
@@ -10,7 +9,7 @@ class AVLIntervalTree
     /* 
      * Fastayrðing gagna:
      * 
-     * Skilgreinum null.height = 0 og null.Max = -infinity
+     * Skilgreinum null.height := 0 og null.Max := -infinity.
      *
      * Ef left = null er Min = Value.min()
      * Annars er Min = left.Min()
@@ -31,29 +30,26 @@ class AVLIntervalTree
     // Notkun: m = maxof3( a, b, c )
     // Fyrir:
     // Eftir: m = max{ a, b, c }
-    private static int maxof3( int a, int b, int c )
-    {
+    private static int maxof3( int a, int b, int c ) {
         int max = a;
         if( max < b ) max = b;
         if( max < c ) max = c;
         return max;     
     }
     
-    // Notkun: m = minof3( a, b )
+    // Notkun: m = minof2( a, b );
     // Fyrir:
     // Eftir: m = min{ a, b }
-    private static int minof2( int a, int b )
-    {
+    private static int minof2( int a, int b ) {
         int min = a;
         if( min > b ) min = b;
         return min;
     }
     
-    // Notkun: updateMax( T )
+    // Notkun: updateMax( T );
     // Fyrir: T != null
     // Eftir: T.Max = max{ left.Max, T.Value.max(), right.Max }
-    private static void updateMax( AVLIntervalTree T )
-    {
+    private static void updateMax( AVLIntervalTree T ) {
         int a, b;
         a = Integer.MIN_VALUE;
         b = a;
@@ -62,22 +58,20 @@ class AVLIntervalTree
         T.Max = maxof3( a, b, T.Value.max() );
     }
     
-    // Notkun: updateMin( T )
+    // Notkun: updateMin( T );
     // Fyrir: T != null
     // Eftir: T.Min = min{ left.Min, T.Value.min() }, þar sem null.Min = infinity
-    private static void updateMin( AVLIntervalTree T )
-    {
+    private static void updateMin( AVLIntervalTree T ) {
         int a, b;
         a = Integer.MAX_VALUE;
         if( T.left != null ) a = T.left.Min;
         T.Min = minof2( a, T.Value.min() );
     }
     
-    // Notkun: S = containInterval( T, I )
+    // Notkun: S = containInterval( T, I );
     // Fyrir: 
     // Eftir: S inniheldur öll bil úr T sem innihalda bilið I.
-    public static AVLIntervalTree containInterval( AVLIntervalTree T, Interval I )
-    {
+    public static AVLIntervalTree containInterval( AVLIntervalTree T, Interval I ) {
         if( T == null ) return null;
         AVLIntervalTree R = null, S = null;
         S = containInteger( T, I.min() );
@@ -88,8 +82,7 @@ class AVLIntervalTree
     // Notkun: S = containInteger( T, k )
     // Fyrir: 
     // Eftir: S inniheldur öll bil úr T sem innihalda k.
-    public static AVLIntervalTree containInteger( AVLIntervalTree T, int k )
-    {
+    public static AVLIntervalTree containInteger( AVLIntervalTree T, int k ) {
         if( T == null ) return null;
         Interval I = new Interval(k,k);
         return intersectInterval(T,I);
@@ -98,19 +91,17 @@ class AVLIntervalTree
     // Notkun: S = intersectInterval( T, I )
     // Fyrir: 
     // Eftir: S inniheldur öll bil úr T sem skera bilið I.
-    public static AVLIntervalTree intersectInterval( AVLIntervalTree T, Interval I )
-    {
+    public static AVLIntervalTree intersectInterval( AVLIntervalTree T, Interval I ) {
         if( T == null ) return null;
         AVLIntervalTree S = null;
         S = findIntersecting(S, T, I);
         return S;
     }
     
-    // Notkun: S = findIntersecting( S, T, I )
+    // Notkun: S2 = findIntersecting( S, T, I )
     // Fyrir: T != null
-    // Eftir: S inniheldur sömu upplýsingar og áður og að auki öll bil úr T sem skera bilið I.
-    private static AVLIntervalTree findIntersecting( AVLIntervalTree S, AVLIntervalTree T, Interval I)
-    {
+    // Eftir: S2 inniheldur sömu bil og S og að auki öll bil úr T sem skera bilið I.
+    private static AVLIntervalTree findIntersecting( AVLIntervalTree S, AVLIntervalTree T, Interval I) {
         if( T.Value.intersects(I) )
             S = insert(S, T.Value);
         if( T.left != null && T.left.Max >= I.min() && T.left.Min <= I.max() )
@@ -129,8 +120,7 @@ class AVLIntervalTree
     //        y   C    =>  A   x
     //       / \              / \
     //      A   B            B   C
-    private static AVLIntervalTree rotateLL( AVLIntervalTree tree )
-    {
+    private static AVLIntervalTree rotateLL( AVLIntervalTree tree ) {
         AVLIntervalTree x = tree, y = x.left;
         x.left = y.right;
         x.height = height(x.left,x.right);
@@ -155,8 +145,7 @@ class AVLIntervalTree
     //      A   z              A   B C   D
     //         / \
     //        B   C
-    private static AVLIntervalTree rotateLR( AVLIntervalTree tree )
-    {
+    private static AVLIntervalTree rotateLR( AVLIntervalTree tree ) {
         AVLIntervalTree x = tree, y = x.left, z = y.right;
         x.left = z.right;
         x.height = height(x.left,x.right);
@@ -183,8 +172,7 @@ class AVLIntervalTree
     //        A   y    =>    x   C
     //           / \        / \
     //          B   C      A   B    
-    private static AVLIntervalTree rotateRR( AVLIntervalTree tree )
-    {
+    private static AVLIntervalTree rotateRR( AVLIntervalTree tree ) {
         AVLIntervalTree x = tree, y = x.right;
         x.right = y.left;
         x.height = height(x.left,x.right);
@@ -208,8 +196,7 @@ class AVLIntervalTree
     //          z   D          A   B C   D
     //         / \
     //        B   C
-    private static AVLIntervalTree rotateRL( AVLIntervalTree tree )
-    {
+    private static AVLIntervalTree rotateRL( AVLIntervalTree tree ) {
         AVLIntervalTree x = tree, y = x.right, z = y.left;
         x.right = z.left;
         x.height = height(x.left,x.right);
@@ -229,9 +216,8 @@ class AVLIntervalTree
     
     // Notkun: tree = AVLIntervalTree(I);
     // Fyrir:  
-    // Eftir:  tree er AVLIntervalTree hlutur með tree.Value = I.
-    private AVLIntervalTree( Interval I )
-    {
+    // Eftir:  tree er AVLIntervalTree hlutur með tree.Value = I en enga aðra hnúta.
+    private AVLIntervalTree( Interval I ) {
         Value = I;
         height = 1;
         Max = I.max();
@@ -241,8 +227,7 @@ class AVLIntervalTree
     // Notkun: h = height(tree);
     // Fyrir: 
     // Eftir:  h = tree.height
-    static int height( AVLIntervalTree tree )
-    {
+    static int height( AVLIntervalTree tree ) {
         if( tree==null ) return 0;
         return tree.height;
     }
@@ -250,8 +235,7 @@ class AVLIntervalTree
     // Notkun: h = height(left,right);
     // Fyrir: 
     // Eftir: h = max{ left.height, right.height } + 1
-    static int height( AVLIntervalTree left, AVLIntervalTree right )
-    {
+    static int height( AVLIntervalTree left, AVLIntervalTree right ) {
         int leftheight = height(left);
         int rightheight = height(right);
         if( leftheight > rightheight )
@@ -262,9 +246,8 @@ class AVLIntervalTree
     
     // Notkun: f = find(tree,I);
     // Fyrir: 
-    // Eftir:  f = True þþaa I er í tree
-    public static boolean find( AVLIntervalTree tree, Interval I )
-    {
+    // Eftir:  f == true þþaa I er í tree
+    public static boolean find( AVLIntervalTree tree, Interval I ) {
         if( tree==null )
             return false;
         if( tree.Value.equals(I) )
@@ -278,8 +261,7 @@ class AVLIntervalTree
     // Notkun: I = min(tree);
     // Fyrir:  
     // Eftir:  I er fremsti Interval hluturinn í tree.
-    static Interval min( AVLIntervalTree tree )
-    {
+    static Interval min( AVLIntervalTree tree ) {
         if( tree==null ) return null;
         if( tree.left==null ) return tree.Value;
         return min(tree.left);
@@ -288,8 +270,7 @@ class AVLIntervalTree
     // Notkun: I = max(tree);
     // Fyrir:
     // Eftir:  I er aftasti Interval hluturinn í tree.
-    static Interval max( AVLIntervalTree tree )
-    {
+    static Interval max( AVLIntervalTree tree ) {
         if( tree==null ) return null;
         if( tree.right==null ) return tree.Value;
         return max(tree.right);
@@ -299,9 +280,7 @@ class AVLIntervalTree
     // Fyrir:  
     // Eftir:  tree inniheldur allar sömu upplýsingar og org,
     //          en auk þess hefur einn hnútur gildið I.
-    public static AVLIntervalTree insert( AVLIntervalTree org, Interval I )
-    {
-        
+    public static AVLIntervalTree insert( AVLIntervalTree org, Interval I ) {
         if( org==null )
             return new AVLIntervalTree(I);
         
@@ -309,26 +288,22 @@ class AVLIntervalTree
         if( I.max() > org.Max ) org.Max = I.max();
         if( I.min() < org.Min ) org.Min = I.min();
         
-        if( I.compareTo(org.Value) < 0 )
-        {
+        if( I.compareTo(org.Value) < 0 ) {
             org.left = insert(org.left,I);
             
             // org.left != null
-            if(height(org.left) > height(org.right) + 1)
-            {
+            if(height(org.left) > height(org.right) + 1) {
                 if(I.compareTo(org.left.Value) >= 0) // org.left.right != null
                     org = rotateLR(org);
                 else org = rotateLL(org);
             }
             org.height = height(org.left,org.right);
         }
-        else if( I.compareTo(org.Value) > 0)
-        {
+        else if( I.compareTo(org.Value) > 0) {
             org.right = insert(org.right,I);
             
             // org.right != null
-            if(height(org.right) > height(org.left) + 1)
-            {
+            if(height(org.right) > height(org.left) + 1) {
                 if(I.compareTo(org.right.Value) < 0) // org.right.left != null
                     org = rotateRL(org);
                 else org = rotateRR(org);
@@ -343,22 +318,17 @@ class AVLIntervalTree
     // Fyrir:  
     // Eftir:  tree inniheldur allar sömu upplýsingar og org,
     //          nema enginn hnútur hefur gildið I.
-    public static AVLIntervalTree delete( AVLIntervalTree org, Interval I )
-    {
-        
+    public static AVLIntervalTree delete( AVLIntervalTree org, Interval I ) {
         if( org==null ) return null;
-        if( I.equals(org.Value) )
-        {
-            if( height(org.left) > height(org.right) )
-            {
+        if( I.equals(org.Value) ) {
+            if( height(org.left) > height(org.right) ) {
                 org.Value = max(org.left);
                 org.left = delete(org.left,org.Value);
                 
                 // Uppfæri org.Max
                 updateMax(org);
                 
-                if( height(org.left) + 1 < height(org.right) )
-                {
+                if( height(org.left) + 1 < height(org.right) ) {
                     if( height(org.right.right) < height(org.right.left) ) org = rotateRL(org);
                     else org = rotateRR(org);
                 }
@@ -366,8 +336,7 @@ class AVLIntervalTree
                 org.height = height(org.left,org.right);
                 return org;
             }
-            else if( org.right != null )
-            {
+            else if( org.right != null ) {
                 org.Value = min(org.right);
                 org.right = delete(org.right,org.Value);
                 
@@ -375,8 +344,7 @@ class AVLIntervalTree
                 updateMax(org);
                 updateMin(org);
                                 
-                if( height(org.right) + 1 < height(org.left) )
-                {
+                if( height(org.right) + 1 < height(org.left) ) {
                     if( height(org.left.left) < height(org.left.right) ) org = rotateLR(org);
                     else org = rotateLL(org);
                 }
@@ -388,29 +356,25 @@ class AVLIntervalTree
             else
                 return null;
         }
-        if( I.compareTo(org.Value) < 0 )
-        {
+        if( I.compareTo(org.Value) < 0 ) {
             org.left = delete(org.left,I);
             // Uppfæri org.Max og org.Min
             updateMax(org);
             updateMin(org);
             
-            if( height(org.left) + 1 < height(org.right) )
-            {
+            if( height(org.left) + 1 < height(org.right) ) {
                 if( height(org.right.right) < height(org.right.left) ) org = rotateRL(org);
                 else org = rotateRR(org);
             }
             
             org.height = height(org.left,org.right);
         }
-        else
-        {
+        else {
             org.right = delete(org.right,I);
             // Uppfæri org.Max
             updateMax(org);
             
-            if( height(org.right) + 1 < height(org.left) )
-            {
+            if( height(org.right) + 1 < height(org.left) ) {
                 if( height(org.left.left) < height(org.left.right) ) org = rotateLR(org);
                 else org = rotateLL(org);
             }
@@ -421,20 +385,19 @@ class AVLIntervalTree
     }
     
     
-    
     // Notkun: b = checkAVL( tree );
-    // Fyrir: Ekkert
-    // Eftir: b = true þþaa tree uppfylli AVL skilyrði.
-    public static boolean checkAVL( AVLIntervalTree tree ){
+    // Fyrir: 
+    // Eftir: b == true þþaa tree uppfylli AVL skilyrði.
+    public static boolean checkAVL( AVLIntervalTree tree ) {
         if( tree == null ) return true;
         int d = height(tree.left) - height(tree.right);
         return d > -2 && d < 2 && checkAVL(tree.left) && checkAVL(tree.right);
     }
     
     // Notkun: b = checkBST( tree );
-    // Fyrir: Ekkert
+    // Fyrir: 
     // Eftir: b = true þþaa tree uppfylli Tvíleitarskilyrði.
-    public static boolean checkBST( AVLIntervalTree tree ){
+    public static boolean checkBST( AVLIntervalTree tree ) {
         if( tree == null ) return true;
         boolean c = tree.left == null || tree.left.Value.compareTo(tree.Value) <= 0;
         boolean d = tree.right == null || tree.right.Value.compareTo(tree.Value) >= 0;
@@ -457,7 +420,6 @@ class AVLIntervalTree
     private static void buildStringFromTree(AVLIntervalTree T, StringBuilder sb) {
         if (T.left != null) buildStringFromTree(T.left,sb);
         sb.append(T.Value.toString()+" ");
-        //~ System.out.print(T.Value.toString()+" ");
         if (T.right!= null) buildStringFromTree(T.right,sb);
     }
     
