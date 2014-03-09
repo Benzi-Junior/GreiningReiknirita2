@@ -1,7 +1,7 @@
 //~ Við keyrum prufurorritið með skipuninni
-//~ time java PrufuForritBjarni < io/s1.in | diff -w io/s1.out - | wc -l
+//~ time java PrufuForrit < io/s1.in | diff -w io/s1.out - | wc -l
 
-public class PrufuForritBjarni {
+public class PrufuForrit {
     
     // Notkun: s = treeToString(T);
     // Fyrir: (ekkert)
@@ -20,7 +20,7 @@ public class PrufuForritBjarni {
         
         //~ F: Búið er að lesa inn núll línur af staðalinntaki.
         while (scanner.hasNext()) {
-            //~ I: Búið er að lesa inn núll eða fleiri línu af staðalinntaki og gera viðeigandi aðgerðir með þær.
+            //~ I: Búið er að lesa inn núll eða fleiri línur af staðalinntaki og gera viðeigandi aðgerðir með þær.
             String line = scanner.nextLine(); //tekur inntak fram að næsta enter
             String[] S = line.split(" "); //býr til fylki af orðunum í línunni (skipt eftir bilum)
             

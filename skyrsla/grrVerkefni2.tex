@@ -15,22 +15,24 @@
 \usepackage{amssymb} % blacksquare og mathbb
  \renewcommand{\qedsymbol}{$\blacksquare$}
 
-%~ Teikna tré
-\usepackage{qtree}
+\usepackage{minted}
+\usemintedstyle{perldoc} % default, bw, perldoc
+\setlength\partopsep{-\topsep} % eyðir út bili að ofan og neðan kóða
+%\inputminted[ options ]{ language }{ filename }
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 
 \lhead{Greining reiknirita}
-\chead{Verkefni 1}
+\chead{Verkefni 2}
 \rhead{Háskóli Íslands}
 
 \title{
     Greining reiknirita:\ Verkefni 1
     \\\small{Kennari: Páll Melsted}
 }
-\author{Bjarki Geir Benediktsson, \and  Bjarni Jens Kristinsson \and og Tandri Gauksson}
-\date{\small{Skil:\ 9. febrúar 2014}}
+\author{Bjarki Geir Benediktsson \and  Bjarni Jens Kristinsson \and Tandri Gauksson}
+\date{\small{Skil:\ 9. mars 2014}}
 
 
 \begin{document}
@@ -43,46 +45,60 @@ Verkefnið var að hanna gagnagrind sem byggir á einhverskonar tréi og geymir 
 Notast var við AVL tré, en AVL tré eru tvíleitartré sem uppfylla að auki skilyrðið: \textit{Fyrir sérhvern hnút er mismunur á hæðum hægra og vinstra hluttrés í mesta lagi einn}.
 Því skilyrði má viðhalda með því að framkvæma snúninga á tréinu í hvert sinn sem innsetning eða eyðing valda ójafnvægi.\\
 
-Fyrir hnút $N$ látum við $T_N$ tákna tréið sem hefur $N$ sem rót. Í $N$ eru eftirfarandi upplýsingar geymdar:
+\noindent
+Fyrir hnút $N$ látum við $T_N$ tákna tréð sem hefur $N$ sem rót. Í $N$ eru eftirfarandi upplýsingar geymdar:
 \begin{itemize}
-	\item Lokað bil, $N.I$,
-	\item $N.Min =$ Lægsti endapunktur meðal þeirra bila sem eru innihaldin í $T_N$,
-	\item $N.Max =$ Hæsti endapunktur meðal þeirra bila sem eru innihaldin í $T_N$,
-	\item $N.h = $ Hæð $T_N$,
-	\item $N.l = $ Bendir á vinstra barn (ef það er til),
-	\item $N.r = $ Bendir á hægra barn (ef það er til).
+    \item Lokað bil, $N.I$,
+    \item $N.Min =$ Lægsti endapunktur meðal þeirra bila sem eru innihaldin í $T_N$,
+    \item $N.Max =$ Hæsti endapunktur meðal þeirra bila sem eru innihaldin í $T_N$,
+    \item $N.h = $ Hæð $T_N$,
+    \item $N.l = $ Bendir á vinstra barn (ef það er til),
+    \item $N.r = $ Bendir á hægra barn (ef það er til).
 \end{itemize}
 
+\noindent
 Við segjum að tvö bil skerist ef sniðmengi þeirra er ekki tómt.
-Við segjum að bil $J$ skeri tréið $T_N$ ef bilin $J$ og $[N.Min, N.Max]$ skerast (ekkert bil sker tómt tré).
+Við segjum að bil $J$ skeri tréð $T_N$ ef bilin $J$ og $[N.Min, N.Max]$ skerast (ekkert bil sker tómt tré).
 Til þess að finna öll bil í $T_N$ sem skera bilið $J$ var búið til nýtt tré $S$ og eftirfarandi endurkvæma reiknirit notað:
 \begin{enumerate}
-	\item Ef $N.I$ og $J$ skerast er bilinu $N.I$ fært inn í $S$.
-	\item Ef $J$ sker $T_{N.l}$ er reikniritið notað á $T_{N.l}$.
-	\item Ef $J$ sker $T_{N.r}$ er reikniritið notað á $T_{N.r}$.
+    \item Ef $N.I$ og $J$ skerast er bilinu $N.I$ fært inn í $S$.
+    \item Ef $J$ sker $T_{N.l}$ er reikniritið notað á $T_{N.l}$.
+    \item Ef $J$ sker $T_{N.r}$ er reikniritið notað á $T_{N.r}$.
 \end{enumerate}
 Þegar keyrslu lýkur inniheldur $S$ nákvæmlega þau bil í $T_N$ sem skera $J$.\\
 
+\noindent
 Þetta sama reiknirit má svo nota til þess að útfæra aðrar aðferðir.
 Til þess að finna öll bil í $T_N$ sem innihalda tölu $k$ má í staðinn leita að öllum bilum í $T_N$ sem skera bilið $[k,k]$.
-Til þess að finna öll bil í $T_N$ sem skera bilið $[a,b]$ má finna tréið $S$ af öllum bilum í $T_N$ sem innihalda töluna $a$ og finna svo öll bil í $S$ sem innihalda töluna $b$.\\
+Til þess að finna öll bil í $T_N$ sem skera bilið $[a,b]$ má finna tréð $S$ af öllum bilum í $T_N$ sem innihalda töluna $a$ og finna svo öll bil í $S$ sem innihalda töluna $b$.
 
 
 %%%%%%%%BJARKI
-Verkefnið var að hanna gagnagrind sem notaðist við einhverskonar tré til að geyma lokuð bil  á rauntalnalínunni þar sem báðir endanpunktarnir eru heiltölur.
-Við notuðum AVL tré til að geyma bilin sérhver hnútur inniheldur bil ásamt hæsta og lægsta endapunkt sem fyrirfynnst í undirtrénu með þann hnút sem rót. 
-Ef bil I  sker bilið frá lægsta til hæsta endapunktar undirtrés segjum við að bilið skeri undirtréð.
+%~ Verkefnið var að hanna gagnagrind sem notaðist við einhverskonar tré til að geyma lokuð bil  á rauntalnalínunni þar sem báðir endanpunktarnir eru heiltölur.
+%~ Við notuðum AVL tré til að geyma bilin sérhver hnútur inniheldur bil ásamt hæsta og lægsta endapunkt sem fyrirfynnst í undirtrénu með þann hnút sem rót. 
+%~ Ef bil I  sker bilið frá lægsta til hæsta endapunktar undirtrés segjum við að bilið skeri undirtréð.
+%~ 
+%~ Innsetning, leit og eyðing eru framkvæmd eins og við er að búast af AVL tré.
+%~ 
+%~ Þegar leitað er að þeim bilum í trénu sem skera eitthvað bil I þá er athugað hvort I skeri bilið í rótinni 
+%~ svo er athugað hvort I skeri undirtrén og endurkvæmt leitað í þeim undirtrjám sem I sker.
+%~ Þau bil sem skera I eru sett í nýtt tré af sömu tegund og því tré er svo skilað í lokin.
+%~ 
+%~ Klasin sem við notuðum fyrir bil leifði úrkynjuð bil það er $[a,b]$ þar sem $b\leq a$.
+%~ 
+%~ þegar leitað er að bilum í trénu sem innihalda ákveðin punkt p  þá er leitað að þeim bilum sem skera  $[p,p]$ 
+%~ 
+%~ Þegar leitað er að þeim bilum í trénu sem innihalda bil $[a,b]$ þá er fyrst leitað að þeim bilum sem skera $[a,a]$ og svo er leitað að þeim bilum sem skera  $[b,b]$ í trénu sem skilað var úr fyrri leitinni.
 
-Innsetning, leit og eyðing eru framkvæmd eins og við er að búast af AVL tré.
 
-Þegar leitað er að þeim bilum í trénu sem skera eitthvað bil I þá er athugað hvort I skeri bilið í rótinni 
-svo er athugað hvort I skeri undirtrén og endurkvæmt leitað í þeim undirtrjám sem I sker.
-Þau bil sem skera I eru sett í nýtt tré af sömu tegund og því tré er svo skilað í lokin.
+\section{Java kóði}
+\subsection{AVLIntervalTree}
+\inputminted[]{java}{../AVLIntervalTree.java}
 
-Klasin sem við notuðum fyrir bil leifði úrkynjuð bil það er $[a,b]$ þar sem $b\leq a$.
+\subsection{Interval}
+\inputminted[]{java}{../Interval.java}
 
-þegar leitað er að bilum í trénu sem innihalda ákveðin punkt p  þá er leitað að þeim bilum sem skera  $[p,p]$ 
-
-Þegar leitað er að þeim bilum í trénu sem innihalda bil $[a,b]$ þá er fyrst leitað að þeim bilum sem skera $[a,a]$ og svo er leitað að þeim bilum sem skera  $[b,b]$ í trénu sem skilað var úr fyrri leitinni.
+\subsection{PrufuForrit}
+\inputminted[]{java}{../PrufuForrit.java}
 
 \end{document}

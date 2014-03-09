@@ -422,39 +422,4 @@ class AVLIntervalTree {
         sb.append(T.Value.toString()+" ");
         if (T.right!= null) buildStringFromTree(T.right,sb);
     }
-    
-    public static void main( String[] args ) throws Exception {    
-        Interval I1 = new Interval(3,7);
-        Interval I2 = new Interval(3,5);
-        Interval I3 = new Interval(3,6);
-        Interval I4 = new Interval(2,7);
-        Interval I5 = new Interval(4,5);
-        Interval I6 = new Interval(3,9);
-        Interval I7 = new Interval(6,10);
-        
-        AVLIntervalTree Tree = null;
-        Tree = insert(Tree, I1);
-        Tree = insert(Tree, I2);
-        Tree = insert(Tree, I3);
-        Tree = insert(Tree, I4);
-        Tree = insert(Tree, I5);
-        Tree = insert(Tree, I6);
-        Tree = insert(Tree, I7);
-        
-        System.out.println("AVL: " + checkAVL(Tree));
-        System.out.println("BST: " + checkBST(Tree));
-            
-        Tree = delete(Tree, I1);
-        Tree = delete(Tree, I2);
-        
-        
-        System.out.println("AVL: " + checkAVL(Tree));
-        System.out.println("BST: " + checkBST(Tree));
-        
-        
-        System.out.println(intersectInterval(Tree, new Interval(5,6)) + "\n");
-        System.out.println(containInteger(Tree, 3) + "\n");
-        System.out.println(containInterval(Tree, new Interval(7,8)) + "\n");
-        System.out.println(Tree);
-    }
 }
