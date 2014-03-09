@@ -61,7 +61,7 @@ Við segjum að tvö bil skerist ef sniðmengi þeirra er ekki tómt.
 Við segjum að bil $J$ skeri tréð $T_N$ ef bilin $J$ og $[N.Min, N.Max]$ skerast (ekkert bil sker tómt tré).
 Til þess að finna öll bil í $T_N$ sem skera bilið $J$ var búið til nýtt tré $S$ og eftirfarandi endurkvæma reiknirit notað:
 \begin{enumerate}
-    \item Ef $N.I$ og $J$ skerast er bilinu $N.I$ fært inn í $S$.
+    \item Ef $N.I$ og $J$ skerast er bilinu $N.I$ bætt við $S$.
     \item Ef $J$ sker $T_{N.l}$ er reikniritið notað á $T_{N.l}$.
     \item Ef $J$ sker $T_{N.r}$ er reikniritið notað á $T_{N.r}$.
 \end{enumerate}
@@ -70,7 +70,10 @@ Til þess að finna öll bil í $T_N$ sem skera bilið $J$ var búið til nýtt 
 \noindent
 Þetta sama reiknirit má svo nota til þess að útfæra aðrar aðferðir.
 Til þess að finna öll bil í $T_N$ sem innihalda tölu $k$ má í staðinn leita að öllum bilum í $T_N$ sem skera bilið $[k,k]$.
-Til þess að finna öll bil í $T_N$ sem innihalda bilið $[a,b]$ má finna tréð $S$ af öllum bilum í $T_N$ sem innihalda töluna $a$ og finna svo öll bil í $S$ sem innihalda töluna $b$.
+Til þess að finna öll bil í $T_N$ sem innihalda bilið $[a,b]$ má finna tréð $S$ af öllum bilum í $T_N$ sem innihalda töluna $a$ og finna svo öll bil í $S$ sem innihalda töluna $b$. \\
+
+\noindent
+Við útfærðum \texttt{AVLIntervalTree.toString()} aðferðina með því að láta hana búa til hlut af taginu \texttt{StringBuilder} og kalla á \texttt{buildStringFromTree(AVLIntervalTree T, StringBuilder sb)} með sjálfu sér og \texttt{StringBuilder} hlutnum. Þessi aðferð gengur í gegn um \texttt{T} í inorder röð með því að kalla endurkvæmt á sjálfa sig og bætir gildinu í hnútnum við hlutinn \texttt{sb}. Með því að nota \texttt{StringBuilder} hlut í staðinn fyrir einfalda samskeytingu strengja þá er keyrslutími \texttt{toString()} aðferðarinnar $O(n)$ í stað $O(n^2)$.
 
 
 %%%%%%%%BJARKI
@@ -90,7 +93,7 @@ Til þess að finna öll bil í $T_N$ sem innihalda bilið $[a,b]$ má finna tr�
 %~ 
 %~ Þegar leitað er að þeim bilum í trénu sem innihalda bil $[a,b]$ þá er fyrst leitað að þeim bilum sem skera $[a,a]$ og svo er leitað að þeim bilum sem skera  $[b,b]$ í trénu sem skilað var úr fyrri leitinni.
 
-
+\pagebreak
 \section{Java kóði}
 \subsection{AVLIntervalTree}
 \inputminted[]{java}{../AVLIntervalTree.java}
