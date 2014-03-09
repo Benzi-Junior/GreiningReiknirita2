@@ -58,7 +58,8 @@ public class Interval implements Comparable<Interval> {
     //        sker = false annars
     public boolean intersects(Interval J){
         if((right < left) || J.isEmpty()) return false;
-        return ((right >= J.left) || (right >= J.right)) && ((J.left >= left) || (J.right >= left));
+        return ((right >= J.left) || (right >= J.right)) 
+			&& ((J.left >= left) || (J.right >= left));
     }
     
     // Notkun: s = I.toString()

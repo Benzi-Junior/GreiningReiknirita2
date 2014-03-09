@@ -27,6 +27,50 @@ class AVLIntervalTree {
      * 
      */
     
+    // Notkun: S = containInterval( T, I );
+    // Fyrir: 
+    // Eftir: S inniheldur öll bil úr T sem innihalda bilið I.
+    public static AVLIntervalTree containInterval( AVLIntervalTree T, Interval I ) {
+        if( T == null ) return null;
+        AVLIntervalTree R = null, S = null;
+        S = containInteger( T, I.min() );
+        R = containInteger( S, I.max() );
+        return R;
+    }
+    
+    // Notkun: S = containInteger( T, k )
+    // Fyrir: 
+    // Eftir: S inniheldur öll bil úr T sem innihalda k.
+    public static AVLIntervalTree containInteger( AVLIntervalTree T, int k ) {
+        if( T == null ) return null;
+        Interval I = new Interval(k,k);
+        return intersectInterval(T,I);
+    }
+    
+    // Notkun: S = intersectInterval( T, I )
+    // Fyrir: 
+    // Eftir: S inniheldur öll bil úr T sem skera bilið I.
+    public static AVLIntervalTree intersectInterval( AVLIntervalTree T, Interval I ) {
+        if( T == null ) return null;
+        AVLIntervalTree S = null;
+        S = findIntersecting(S, T, I);
+        return S;
+    }
+    
+    // Notkun: S2 = findIntersecting( S, T, I )
+    // Fyrir: T != null
+    // Eftir: S2 inniheldur sömu bil og S og að auki öll bil úr T sem skera bilið I.
+    private static AVLIntervalTree 
+		findIntersecting( AVLIntervalTree S, AVLIntervalTree T, Interval I) {
+        if( T.Value.intersects(I) )
+            S = insert(S, T.Value);
+        if( T.left != null && T.left.Max >= I.min() && T.left.Min <= I.max() )
+            S = findIntersecting(S, T.left, I);
+        if( T.right != null && T.right.Max >= I.min() && T.right.Min <= I.max() )
+            S = findIntersecting(S, T.right, I);
+        return S;
+    }
+    
     // Notkun: m = maxof3( a, b, c )
     // Fyrir:
     // Eftir: m = max{ a, b, c }
@@ -67,50 +111,7 @@ class AVLIntervalTree {
         if( T.left != null ) a = T.left.Min;
         T.Min = minof2( a, T.Value.min() );
     }
-    
-    // Notkun: S = containInterval( T, I );
-    // Fyrir: 
-    // Eftir: S inniheldur öll bil úr T sem innihalda bilið I.
-    public static AVLIntervalTree containInterval( AVLIntervalTree T, Interval I ) {
-        if( T == null ) return null;
-        AVLIntervalTree R = null, S = null;
-        S = containInteger( T, I.min() );
-        R = containInteger( S, I.max() );
-        return R;
-    }
-    
-    // Notkun: S = containInteger( T, k )
-    // Fyrir: 
-    // Eftir: S inniheldur öll bil úr T sem innihalda k.
-    public static AVLIntervalTree containInteger( AVLIntervalTree T, int k ) {
-        if( T == null ) return null;
-        Interval I = new Interval(k,k);
-        return intersectInterval(T,I);
-    }
-    
-    // Notkun: S = intersectInterval( T, I )
-    // Fyrir: 
-    // Eftir: S inniheldur öll bil úr T sem skera bilið I.
-    public static AVLIntervalTree intersectInterval( AVLIntervalTree T, Interval I ) {
-        if( T == null ) return null;
-        AVLIntervalTree S = null;
-        S = findIntersecting(S, T, I);
-        return S;
-    }
-    
-    // Notkun: S2 = findIntersecting( S, T, I )
-    // Fyrir: T != null
-    // Eftir: S2 inniheldur sömu bil og S og að auki öll bil úr T sem skera bilið I.
-    private static AVLIntervalTree findIntersecting( AVLIntervalTree S, AVLIntervalTree T, Interval I) {
-        if( T.Value.intersects(I) )
-            S = insert(S, T.Value);
-        if( T.left != null && T.left.Max >= I.min() && T.left.Min <= I.max() )
-            S = findIntersecting(S, T.left, I);
-        if( T.right != null && T.right.Max >= I.min() && T.right.Min <= I.max() )
-            S = findIntersecting(S, T.right, I);
-        return S;
-    }    
-    
+        
     // Notkun: tree2 = rotateLL( tree );
     // Fyrir: tree != null og tree.left != null
     // Eftir: tree2 inniheldur sömu upplýsingar og tree, en búið er að snúa tree
@@ -132,7 +133,6 @@ class AVLIntervalTree {
         updateMin(y);
         return y;
     }
-        
     
     // Notkun: tree2 = rotateLR( tree );
     // Fyrir: tree != null, tree.left != null og tree.left.right != null
@@ -214,7 +214,7 @@ class AVLIntervalTree {
         return z;
     }
     
-    // Notkun: tree = AVLIntervalTree(I);
+    // Notkun: tree = new AVLIntervalTree(I);
     // Fyrir:  
     // Eftir:  tree er AVLIntervalTree hlutur með tree.Value = I en enga aðra hnúta.
     private AVLIntervalTree( Interval I ) {
@@ -242,20 +242,6 @@ class AVLIntervalTree {
             return leftheight+1;
         else
             return rightheight+1;
-    }
-    
-    // Notkun: f = find(tree,I);
-    // Fyrir: 
-    // Eftir:  f == true þþaa I er í tree
-    public static boolean find( AVLIntervalTree tree, Interval I ) {
-        if( tree==null )
-            return false;
-        if( tree.Value.equals(I) )
-            return true;
-        if( I.compareTo(tree.Value) < 0 )
-            return find(tree.left,I);
-        else
-            return find(tree.right,I);
     }
     
     // Notkun: I = min(tree);
@@ -382,28 +368,7 @@ class AVLIntervalTree {
             org.height = height(org.left,org.right);
         }
         return org;
-    }
-    
-    
-    // Notkun: b = checkAVL( tree );
-    // Fyrir: 
-    // Eftir: b == true þþaa tree uppfylli AVL skilyrði.
-    public static boolean checkAVL( AVLIntervalTree tree ) {
-        if( tree == null ) return true;
-        int d = height(tree.left) - height(tree.right);
-        return d > -2 && d < 2 && checkAVL(tree.left) && checkAVL(tree.right);
-    }
-    
-    // Notkun: b = checkBST( tree );
-    // Fyrir: 
-    // Eftir: b = true þþaa tree uppfylli Tvíleitarskilyrði.
-    public static boolean checkBST( AVLIntervalTree tree ) {
-        if( tree == null ) return true;
-        boolean c = tree.left == null || tree.left.Value.compareTo(tree.Value) <= 0;
-        boolean d = tree.right == null || tree.right.Value.compareTo(tree.Value) >= 0;
-        return c && d && checkBST( tree.left ) && checkBST( tree.right );
-    }
-    
+    }    
     
     // Notkun: s = T.toString()
     // Fyrir: 
